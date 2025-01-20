@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -11,15 +13,23 @@ public class Task {
         return (isDone ? "X" : " ");
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
     }
 
     public void mark() {
-        this.isDone = true;
+        isDone = true;
     }
 
     public void unmark() {
-        this.isDone = false;
+        isDone = false;
+    }
+
+    public void added(ArrayList<Task> tasks) {
+        tasks.add(this);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + this);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 }
