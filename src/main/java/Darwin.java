@@ -20,7 +20,7 @@ public class Darwin {
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 1; i <= tasks.size(); i++) {
                     Task task = tasks.get(i - 1);
-                    System.out.println(i + ". " + task);
+                    System.out.println(i + "." + task);
                 }
             } else if (input.startsWith("mark" )) {
                 int taskNumber = Integer.parseInt(input.substring(5)) - 1;
