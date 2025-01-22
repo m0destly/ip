@@ -25,11 +25,4 @@ public class Task {
     public void unmark() {
         isDone = false;
     }
-
-    public void added(ArrayList<Task> tasks) {
-        tasks.add(this);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + this);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-    }
 }
