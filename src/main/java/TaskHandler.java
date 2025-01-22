@@ -21,7 +21,7 @@ public class TaskHandler {
 
     public void markTask(String input) throws DarwinException {
         try {
-            String index = input.substring(5);
+            String index = input.substring(4).trim();
             // No index
             if (index.isEmpty()) {
                 throw new DarwinException("Where's the index...");
@@ -44,7 +44,7 @@ public class TaskHandler {
 
     public void unmarkTask(String input) throws DarwinException {
         try {
-            String index = input.substring(7);
+            String index = input.substring(6).trim();
             // No index
             if (index.isEmpty()) {
                 throw new DarwinException("Where's the index...");
@@ -105,7 +105,8 @@ public class TaskHandler {
                 String from = inputs[1];
                 // Does not begin with from
                 if (!from.startsWith("from ")) {
-                    throw new DarwinException("Wrong format...\nUsage: event [description] /from [start time] /to [end time]");
+                    throw new DarwinException("Wrong format...\n" +
+                            "Usage: event [description] /from [start time] /to [end time]");
                 }
                 from = from.substring(5).trim();
                 // No start time
@@ -115,7 +116,8 @@ public class TaskHandler {
                 String to = inputs[2];
                 // Does not begin with to
                 if (!to.startsWith("to ")) {
-                    throw new DarwinException("Wrong format...\nUsage: event [description] /from [start time] /to [end time]");
+                    throw new DarwinException("Wrong format...\n" +
+                            "Usage: event [description] /from [start time] /to [end time]");
                 }
                 to = to.substring(3).trim();
                 // No end time
@@ -134,6 +136,28 @@ public class TaskHandler {
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         // Checks for singular task
-        System.out.println("Now you have " + tasks.size() + (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+        System.out.println("Now you have " + tasks.size() +
+                (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+    }
+
+    public void deleteTask(String input) throws DarwinException {
+        try {
+            String index = input.substring(6).trim();
+            // No index
+            if (index.isEmpty()) {
+                throw new DarwinException("Where's the index...");
+            }
+            int taskNumber = Integer.parseInt(index) - 1;
+            Task task = tasks.get(taskNumber);
+            tasks.remove(taskNumber);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println("  " + task);
+            System.out.println("Now you have " + (tasks.isEmpty() ? "no" : tasks.size()) +
+                    (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+        } catch (NumberFormatException e) {
+            throw new DarwinException("Not a number...");
+        } catch (IndexOutOfBoundsException e) {
+            throw new DarwinException("Can't reach...");
+        }
     }
 }

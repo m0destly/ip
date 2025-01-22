@@ -8,17 +8,19 @@ public class Darwin {
         System.out.println(line + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + line);
         TaskHandler handler = new TaskHandler(new ArrayList<Task>());
         while (true) {
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
             System.out.println(line);
             try {
                 if (input.equals("bye")) {
                     break;
                 } else if (input.equals("list")) {
                     handler.list();
-                } else if (input.startsWith("mark ")) {
+                } else if (input.equals("mark") || input.startsWith("mark ")) {
                     handler.markTask(input);
-                } else if (input.startsWith("unmark ")) {
+                } else if (input.equals("unmark") || input.startsWith("unmark ")) {
                     handler.unmarkTask(input);
+                } else if (input.equals("delete") || input.startsWith("delete ")) {
+                    handler.deleteTask(input);
                 } else {
                     handler.addTask(input);
                 }
