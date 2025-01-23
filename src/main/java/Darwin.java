@@ -1,12 +1,11 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Darwin {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String line = "____________________________________________________________";
         System.out.println(line + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + line);
-        TaskHandler handler = new TaskHandler(new ArrayList<Task>());
+        TaskHandler handler = new TaskHandler();
         while (true) {
             String input = scanner.nextLine().trim();
             System.out.println(line);
