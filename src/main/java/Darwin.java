@@ -4,8 +4,9 @@ public class Darwin {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String line = "____________________________________________________________";
-        System.out.println(line + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + line);
+        System.out.println(line);
         TaskHandler handler = new TaskHandler();
+        System.out.println(line + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + line);
         while (true) {
             String input = scanner.nextLine().trim();
             System.out.println(line);
@@ -29,7 +30,8 @@ public class Darwin {
                 System.out.println(line);
             }
         }
-        System.out.println("Bye. Hope to see you again soon!\n" + line);
+        handler.saveTasks();
+        System.out.println(line + "\nBye. Hope to see you again soon!\n" + line);
         scanner.close();
     }
 }
