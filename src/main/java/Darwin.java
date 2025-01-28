@@ -29,7 +29,8 @@ public class Darwin {
                 System.out.println(line);
             }
         }
-        System.out.println("Bye. Hope to see you again soon!\n" + line);
+        handler.saveTasks();
+        System.out.println(line + "\nBye. Hope to see you again soon!\n" + line);
         scanner.close();
     }
 }

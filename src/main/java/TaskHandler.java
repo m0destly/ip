@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskHandler {
@@ -166,6 +171,23 @@ public class TaskHandler {
             throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
+        }
+    }
+
+    public void saveTasks() {
+        File currTasks = new File("./data/darwin.txt");
+        try {
+            if (currTasks.createNewFile()) {
+                System.out.println("New save file created.");
+            }
+            PrintStream fileOutput = new PrintStream(currTasks);
+            System.setOut(fileOutput);
+            list();
+            fileOutput.close();
+            System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+            System.out.println("Current tasks saved.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
         }
     }
 }
