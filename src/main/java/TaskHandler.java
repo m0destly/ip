@@ -1,8 +1,13 @@
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileDescriptor;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
+import java.lang.ClassNotFoundException;
 import java.util.ArrayList;
 
 public class TaskHandler {
@@ -10,12 +15,12 @@ public class TaskHandler {
 
     public TaskHandler() {
         this.tasks = new ArrayList<Task>();
+        loadTasks();
     }
 
     public void list() throws DarwinException {
         // No tasks
         if (tasks.isEmpty()) {
-            //throw new DarwinException("Add a task first...");
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
         }
         System.out.println("Here are the tasks in your list:");
@@ -157,7 +162,6 @@ public class TaskHandler {
             String index = input.substring(6).trim();
             // No index
             if (index.isEmpty()) {
-                //throw new DarwinException("Where's the index...");
                 throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
             }
             int taskNumber = Integer.parseInt(index) - 1;
@@ -175,8 +179,19 @@ public class TaskHandler {
     }
 
     public void saveTasks() {
+        if (new File("./data").mkdir()) {
+            System.out.println("New directory created.");
+        }
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks to save.");
+            return;
+        }
         File currTasks = new File("./data/darwin.txt");
         try {
+            FileOutputStream fos = new FileOutputStream("./data/darwin.tmp");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(tasks);
+            oos.close();
             if (currTasks.createNewFile()) {
                 System.out.println("New save file created.");
             }
@@ -185,9 +200,25 @@ public class TaskHandler {
             list();
             fileOutput.close();
             System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-            System.out.println("Current tasks saved.");
+            System.out.println(tasks.size() + " tasks saved.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred saving current tasks.");
+        }
+    }
+
+    public void loadTasks() {
+        try {
+            FileInputStream fis = new FileInputStream("./data/darwin.tmp");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            tasks = (ArrayList<Task>) ois.readObject();
+            ois.close();
+            System.out.println(tasks.size() + " tasks loaded.");
+        } catch (FileNotFoundException e) {
+            System.out.println("No saved tasks found.");
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println("An error occurred loading saved tasks.");
         }
     }
 }
