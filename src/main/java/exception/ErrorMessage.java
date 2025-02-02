@@ -1,3 +1,5 @@
+package exception;
+
 public enum ErrorMessage {
     MISSING_TASK("No tasks currently."),
     MISSING_INDEX_MARK("Missing index.\nUsage: mark [task number]"),

@@ -1,3 +1,5 @@
+package darwin;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -23,12 +25,6 @@ public class Ui {
     public String readCommand() {
         return scanner.nextLine().trim();
     }
-
-    /*
-    public void showLoadingError(DarwinException e) {
-        System.out.println(e.getMessage());
-    }
-    */
 
     public void showError(String errorMessage) {
         System.out.println(errorMessage);
