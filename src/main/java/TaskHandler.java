@@ -16,7 +16,7 @@ public class TaskHandler {
     protected ArrayList<Task> tasks;
 
     public TaskHandler() {
-        this.tasks = new ArrayList<Task>();
+        this.tasks = new ArrayList<>();
         loadTasks();
     }
 
