@@ -8,13 +8,13 @@ public enum ErrorMessage {
     NOT_NUMBER("Try again with a valid integer."),
     OUT_OF_BOUND("This task doesn't exist."),
     MISSING_DESCRIPTION_TODO("Missing description.\nUsage: todo [description]"),
-    MISSING_DESCRIPTION_DEADLINE("Missing description.\nUsage: deadline [description] /by [deadline]"),
-    MISSING_DESCRIPTION_EVENT("Missing description.\nUsage: event [description] /from [start time] /to [end time]"),
-    MISSING_DEADLINE("Missing deadline.\nUsage: deadline [description] /by [deadline]"),
-    WRONG_DEADLINE("Wrong format.\nUsage: deadline [description] /by [deadline]"),
-    WRONG_EVENT("Wrong format.\nUsage: event [description] /from [start time] /to [end time]"),
-    MISSING_START("Missing start time.\nUsage: event [description] /from [start time] /to [end time]"),
-    MISSING_END("Missing end time.\nUsage: event [description] /from [start time] /to [end time]"),
+    MISSING_DESCRIPTION_DEADLINE("Missing description.\nUsage: deadline [description] /by [yyyy-mm-dd]"),
+    MISSING_DESCRIPTION_EVENT("Missing description.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    MISSING_DEADLINE("Missing deadline.\nUsage: deadline [description] /by [yyyy-mm-dd]"),
+    WRONG_DEADLINE("Wrong format.\nUsage: deadline [description] /by [yyyy-mm-dd]"),
+    WRONG_EVENT("Wrong format.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    MISSING_START("Missing start time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    MISSING_END("Missing end time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
     UNKNOWN("This command is yet to be understood.");
 
     private final String error;
