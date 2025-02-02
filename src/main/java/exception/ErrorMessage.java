@@ -17,8 +17,7 @@ public enum ErrorMessage {
     WRONG_EVENT("Wrong format.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
     MISSING_START("Missing start time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
     MISSING_END("Missing end time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
-    UNKNOWN("This command is yet to be understood."),
-    LOAD_ERROR("There was an error loading tasks.");
+    UNKNOWN("This command is yet to be understood.");
 
     private final String error;
     ErrorMessage(String error) {
