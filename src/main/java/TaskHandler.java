@@ -8,7 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileNotFoundException;
 import java.lang.ClassNotFoundException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class TaskHandler {
     protected ArrayList<Task> tasks;
@@ -106,8 +108,9 @@ public class TaskHandler {
                 if (deadline.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_DEADLINE.message());
                 }
-                tasks.add(new Deadline(description, deadline));
-            } catch (ArrayIndexOutOfBoundsException e) {
+                LocalDate date = LocalDate.parse(deadline);
+                tasks.add(new Deadline(description, date));
+            } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
                 throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
             } catch (IndexOutOfBoundsException e) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
@@ -129,6 +132,7 @@ public class TaskHandler {
                 if (from.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_START.message());
                 }
+                LocalDate fromDate = LocalDate.parse(from);
                 String to = inputs[2];
                 // Does not begin with to
                 if (!(to.equals("to") || to.startsWith("to "))) {
@@ -139,8 +143,9 @@ public class TaskHandler {
                 if (to.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_END.message());
                 }
-                tasks.add(new Event(description, from, to));
-            } catch (ArrayIndexOutOfBoundsException e) {
+                LocalDate toDate = LocalDate.parse(to);
+                tasks.add(new Event(description, fromDate, toDate));
+            } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
                 throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
             } catch (IndexOutOfBoundsException e) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
