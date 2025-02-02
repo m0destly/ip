@@ -1,0 +1,53 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+public class Storage {
+    protected String filePath;
+
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public ArrayList<Task> load() throws DarwinException {
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            ArrayList<Task> tasks = (ArrayList<Task>) ois.readObject();
+            ois.close();
+            System.out.println(tasks.size() + " tasks loaded.");
+            return tasks;
+        } catch (FileNotFoundException e) {
+            throw new DarwinException("No saved tasks found.");
+        } catch (ClassNotFoundException e) {
+            throw new DarwinException(e.getMessage());
+        } catch (IOException e) {
+            throw new DarwinException("An error occurred loading saved tasks.");
+        }
+    }
+
+    public void save(TaskList taskList) throws DarwinException {
+        ArrayList<Task> tasks = taskList.getTasks();
+        if (new File(filePath).mkdir()) {
+            System.out.println("New directory created.");
+        }
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks to save.");
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(filePath);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(tasks);
+            oos.close();
+            System.out.println(tasks.size() + " tasks saved.");
+        } catch (IOException e) {
+            throw new DarwinException("An error occurred saving current tasks.");
+        }
+    }
+}

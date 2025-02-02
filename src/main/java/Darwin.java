@@ -1,37 +1,42 @@
 import java.util.Scanner;
 
 public class Darwin {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String line = "____________________________________________________________";
-        System.out.println(line);
-        TaskHandler handler = new TaskHandler();
-        System.out.println(line + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + line);
-        while (true) {
-            String input = scanner.nextLine().trim();
-            System.out.println(line);
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
+
+    public Darwin(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (DarwinException e) {
+            ui.showError(e.getMessage());
+            tasks = new TaskList();
+        }
+    }
+
+    public void run() {
+        ui.showWelcome();
+        boolean isExit = false;
+        while (!isExit) {
             try {
-                if (input.equals("bye")) {
-                    break;
-                } else if (input.equals("list")) {
-                    handler.list();
-                } else if (input.equals("mark") || input.startsWith("mark ")) {
-                    handler.markTask(input);
-                } else if (input.equals("unmark") || input.startsWith("unmark ")) {
-                    handler.unmarkTask(input);
-                } else if (input.equals("delete") || input.startsWith("delete ")) {
-                    handler.deleteTask(input);
-                } else {
-                    handler.addTask(input);
-                }
-                System.out.println(line);
+                String fullCommand = ui.readCommand();
+                ui.showLine();
+                isExit = Parser.parse(fullCommand, tasks);
             } catch (DarwinException e) {
-                System.out.println(e.getMessage());
-                System.out.println(line);
+                ui.showError(e.getMessage());
+            } finally {
+                if (!isExit) {
+                    ui.showLine();
+                }
             }
         }
-        handler.saveTasks();
-        System.out.println(line + "\nBye. Hope to see you again soon!\n" + line);
-        scanner.close();
+        storage.save(tasks);
+        ui.showExit();
+    }
+
+    public static void main(String[] args) {
+        new Darwin("data/darwin.tmp").run();
     }
 }
