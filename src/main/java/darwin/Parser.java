@@ -4,7 +4,6 @@ import exception.DarwinException;
 import exception.ErrorMessage;
 
 public class Parser {
-
     /**
      * Returns a boolean to indicate if the program is passed an exit command.
      * Parses the command string and calls the relevant methods.
