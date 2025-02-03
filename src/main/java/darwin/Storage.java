@@ -25,7 +25,7 @@ public class Storage {
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<Task> tasks = (ArrayList<Task>) ois.readObject();
             ois.close();
-            System.out.println(tasks.size() + " tasks loaded.");
+            System.out.println(tasks.size() + (tasks.size() > 1 ? " tasks loaded." : " task loaded."));
             return tasks;
         } catch (FileNotFoundException e) {
             throw new DarwinException("No saved tasks found.");
