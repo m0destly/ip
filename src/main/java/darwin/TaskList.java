@@ -12,35 +12,35 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskList {
-    private ArrayList<Task> taskList;
+    private ArrayList<Task> tasks;
 
     public TaskList() {
-        this.taskList = new ArrayList<>();
+        this.tasks = new ArrayList<>();
     }
 
     public TaskList(ArrayList<Task> tasks) {
-        this.taskList = tasks;
+        this.tasks = tasks;
     }
 
     public ArrayList<Task> getTasks() {
-        return taskList;
+        return tasks;
     }
 
     public void list() throws DarwinException {
         // No tasks
-        if (taskList.isEmpty()) {
+        if (tasks.isEmpty()) {
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
         }
         System.out.println("Here are the tasks in your list:");
-        for (int i = 1; i <= taskList.size(); i++) {
-            Task task = taskList.get(i - 1);
+        for (int i = 1; i <= tasks.size(); i++) {
+            Task task = tasks.get(i - 1);
             System.out.println(i + "." + task);
         }
     }
 
     public void mark(int index) throws DarwinException {
         try {
-            Task task = taskList.get(index);
+            Task task = tasks.get(index);
             // Already marked
             if (task.getStatusIcon().equals("X")) {
                 throw new DarwinException(ErrorMessage.ALREADY_MARKED.message());
@@ -55,7 +55,7 @@ public class TaskList {
 
     public void unmark(int index) throws DarwinException {
         try {
-            Task task = taskList.get(index);
+            Task task = tasks.get(index);
             // Already unmarked
             if (task.getStatusIcon().equals(" ")) {
                 throw new DarwinException(ErrorMessage.ALREADY_UNMARKED.message());
@@ -76,7 +76,7 @@ public class TaskList {
                 if (description.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
                 }
-                taskList.add(new Todo(description));
+                tasks.add(new Todo(description));
             } catch (IndexOutOfBoundsException e) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
             }
@@ -98,7 +98,7 @@ public class TaskList {
                     throw new DarwinException(ErrorMessage.MISSING_DEADLINE.message());
                 }
                 LocalDate date = LocalDate.parse(deadline);
-                taskList.add(new Deadline(description, date));
+                tasks.add(new Deadline(description, date));
             } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
                 throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
             } catch (IndexOutOfBoundsException e) {
@@ -133,7 +133,7 @@ public class TaskList {
                     throw new DarwinException(ErrorMessage.MISSING_END.message());
                 }
                 LocalDate toDate = LocalDate.parse(to);
-                taskList.add(new Event(description, fromDate, toDate));
+                tasks.add(new Event(description, fromDate, toDate));
             } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
                 throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
             } catch (IndexOutOfBoundsException e) {
@@ -143,22 +143,22 @@ public class TaskList {
             throw new DarwinException(ErrorMessage.UNKNOWN.message());
         }
         // Retrieves current task from back
-        Task task = taskList.get(taskList.size() - 1);
+        Task task = tasks.get(tasks.size() - 1);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         // Checks for singular task
-        System.out.println("Now you have " + taskList.size() +
-                (taskList.size() == 1 ? " task " : " tasks ") + "in the list.");
+        System.out.println("Now you have " + tasks.size() +
+                (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
     }
 
     public void delete(int index) throws DarwinException {
         try {
-            Task task = taskList.get(index);
-            taskList.remove(index);
+            Task task = tasks.get(index);
+            tasks.remove(index);
             System.out.println("Noted. I've removed this task:");
             System.out.println("  " + task);
-            System.out.println("Now you have " + (taskList.isEmpty() ? "no" : taskList.size()) +
-                    (taskList.size() == 1 ? " task " : " tasks ") + "in the list.");
+            System.out.println("Now you have " + (tasks.isEmpty() ? "no" : tasks.size()) +
+                    (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
         }

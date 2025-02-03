@@ -4,12 +4,11 @@ import exception.DarwinException;
 import exception.ErrorMessage;
 
 public class Parser {
-
-    public static boolean parse(String command, TaskList tasks) throws DarwinException {
+    public static boolean parse(String command, TaskList taskList) throws DarwinException {
         if (command.equals("bye")) {
             return true;
         } else if (command.equals("list")) {
-            tasks.list();
+            taskList.list();
         } else if (command.equals("mark") || command.startsWith("mark ")) {
             try {
                 String index = command.substring(4).trim();
@@ -18,7 +17,7 @@ public class Parser {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.message());
                 }
                 int taskNumber = Integer.parseInt(index) - 1;
-                tasks.mark(taskNumber);
+                taskList.mark(taskNumber);
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
@@ -30,7 +29,7 @@ public class Parser {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_UNMARK.message());
                 }
                 int taskNumber = Integer.parseInt(index) - 1;
-                tasks.unmark(taskNumber);
+                taskList.unmark(taskNumber);
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
@@ -42,13 +41,13 @@ public class Parser {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
                 }
                 int taskNumber = Integer.parseInt(index) - 1;
-                tasks.delete(taskNumber);
+                taskList.delete(taskNumber);
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
         } else {
             String[] inputs = command.split(" /");
-            tasks.add(inputs);
+            taskList.add(inputs);
         }
         return false;
     }
