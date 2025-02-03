@@ -19,6 +19,12 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads the saved tasks and returns an ArrayList of tasks.
+     *
+     * @return ArrayList of tasks.
+     * @throws DarwinException If there is an error in the loading process.
+     */
     public ArrayList<Task> load() throws DarwinException {
         try {
             FileInputStream fis = new FileInputStream(filePath);
@@ -36,6 +42,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the current tasks in the tasklist.
+     *
+     * @param taskList Tasklist containing the tasks.
+     * @throws DarwinException If there is an error saving the tasks.
+     */
     public void save(TaskList taskList) throws DarwinException {
         ArrayList<Task> tasks = taskList.getTasks();
         String dirs = "";

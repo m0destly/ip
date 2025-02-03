@@ -22,10 +22,20 @@ public class TaskList {
         this.taskList = tasks;
     }
 
+    /**
+     * Returns the ArrayList of tasks.
+     *
+     * @return ArrayList of tasks.
+     */
     public ArrayList<Task> getTasks() {
         return taskList;
     }
 
+    /**
+     * Prints all tasks currently in the tasklist.
+     *
+     * @throws DarwinException If there are no tasks currently.
+     */
     public void list() throws DarwinException {
         // No tasks
         if (taskList.isEmpty()) {
@@ -38,6 +48,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks the task specified by the index.
+     *
+     * @param index The integer representing the index position of the task.
+     * @throws DarwinException If the task is already marked or there is no task at the index position.
+     */
     public void mark(int index) throws DarwinException {
         try {
             Task task = taskList.get(index);
@@ -53,6 +69,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Unmarks the task specified by the index.
+     *
+     * @param index The integer representing the index position of the task.
+     * @throws DarwinException If the task is already unmarked or there is no task at the index position.
+     */
     public void unmark(int index) throws DarwinException {
         try {
             Task task = taskList.get(index);
@@ -68,6 +90,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Adds a new task to the tasklist.
+     *
+     * @param inputs The string array that splits the original string into respective fields.
+     * @throws DarwinException If the format of the command is violated or command is not understood.
+     */
     public void add(String[] inputs) throws DarwinException {
         if (inputs[0].equals("todo") || inputs[0].startsWith("todo ")) {
             try {
@@ -151,6 +179,12 @@ public class TaskList {
                 (taskList.size() == 1 ? " task " : " tasks ") + "in the list.");
     }
 
+    /**
+     * Deletes the task at the specified index from the tasklist.
+     *
+     * @param index The integer representing the index position of the task.
+     * @throws DarwinException If there is no task at the index position.
+     */
     public void delete(int index) throws DarwinException {
         try {
             Task task = taskList.get(index);

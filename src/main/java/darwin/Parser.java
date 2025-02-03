@@ -5,6 +5,15 @@ import exception.ErrorMessage;
 
 public class Parser {
 
+    /**
+     * Returns a boolean to indicate if the program is passed an exit command.
+     * Parses the command string and calls the relevant methods.
+     *
+     * @param command The string passed into the program by the user.
+     * @param tasks The tasklist containing the tasks.
+     * @return True if the command is parsed as the exit command, otherwise false.
+     * @throws DarwinException If the format of the command is violated.
+     */
     public static boolean parse(String command, TaskList tasks) throws DarwinException {
         if (command.equals("bye")) {
             return true;
