@@ -22,7 +22,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void parse_emptyList_failure() throws DarwinException {
+    public void parse_emptyList_exceptionThrown() throws DarwinException {
         TaskList tasks = new TaskList();
         try {
             assertEquals(false, Parser.parse("list", tasks));
@@ -33,7 +33,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void parse_unknown_failure() throws DarwinException {
+    public void parse_unknown_exceptionThrown() throws DarwinException {
         TaskList tasks = new TaskList();
         try {
             assertEquals(false, Parser.parse("test", tasks));

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class StorageTest {
     @Test
-    public void load_nonExistentFilePath_failure() throws DarwinException {
+    public void load_nonExistentFilePath_exceptionThrown() throws DarwinException {
         try {
             assertEquals(new ArrayList<Task>(), new Storage("fake filepath").load());
             fail();
@@ -20,7 +20,7 @@ public class StorageTest {
     }
 
     @Test
-    public void load_emptyFilePath_failure() throws DarwinException {
+    public void load_emptyFilePath_exceptionThrown() throws DarwinException {
         try {
             assertEquals(new ArrayList<Task>(), new Storage("").load());
             fail();
