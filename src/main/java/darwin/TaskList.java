@@ -163,4 +163,24 @@ public class TaskList {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
         }
     }
+
+    public void find(String keyword) throws DarwinException {
+        ArrayList<Task> findKeyword = new ArrayList<>();
+        if (taskList.isEmpty()) {
+            throw new DarwinException(ErrorMessage.MISSING_TASK.message());
+        }
+        for (Task curr : taskList) {
+            if (curr.getDescription().contains(keyword)) {
+                findKeyword.add(curr);
+            }
+        }
+        if (findKeyword.isEmpty()) {
+            throw new DarwinException(ErrorMessage.NO_MATCHES.message());
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 1; i <= findKeyword.size(); i++) {
+            Task containsKeyword = findKeyword.get(i - 1);
+            System.out.println(i + "." + containsKeyword);
+        }
+    }
 }

@@ -17,6 +17,8 @@ public enum ErrorMessage {
     WRONG_EVENT("Wrong format.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
     MISSING_START("Missing start time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
     MISSING_END("Missing end time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    MISSING_KEYWORD("Missing keyword.\nUsage: find [keyword]"),
+    NO_MATCHES("No matching tasks found."),
     UNKNOWN("This command is yet to be understood.");
 
     private final String error;

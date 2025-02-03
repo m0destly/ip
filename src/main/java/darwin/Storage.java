@@ -25,7 +25,7 @@ public class Storage {
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<Task> tasks = (ArrayList<Task>) ois.readObject();
             ois.close();
-            System.out.println(tasks.size() + " tasks loaded.");
+            System.out.println(tasks.size() + (tasks.size() > 1 ? " tasks loaded." : " task loaded."));
             return tasks;
         } catch (FileNotFoundException e) {
             throw new DarwinException("No saved tasks found.");
@@ -38,8 +38,16 @@ public class Storage {
 
     public void save(TaskList taskList) throws DarwinException {
         ArrayList<Task> tasks = taskList.getTasks();
-        if (new File(filePath).mkdir()) {
-            System.out.println("New directory created.");
+        String dirs = "";
+        for (int i = filePath.length() - 1; i >= 0; i--) {
+            if (filePath.charAt(i) == '/') {
+                dirs = filePath.substring(0, i);
+            }
+        }
+        if (!dirs.isEmpty()) {
+            if (new File(dirs).mkdirs()) {
+                System.out.println("New directory created.");
+            }
         }
         if (tasks.isEmpty()) {
             System.out.println("No tasks to save.");
@@ -50,7 +58,7 @@ public class Storage {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(tasks);
             oos.close();
-            System.out.println(tasks.size() + " tasks saved.");
+            System.out.println(tasks.size() + (tasks.size() > 1 ? " tasks saved." : " task saved."));
         } catch (IOException e) {
             throw new DarwinException("An error occurred saving current tasks.");
         }

@@ -46,6 +46,12 @@ public class Parser {
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
+        } else if (command.equals("find") || command.startsWith("find ")) {
+            String keyword = command.substring(4).trim();
+            if (keyword.isEmpty()) {
+                throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
+            }
+            tasks.find(keyword);
         } else {
             String[] inputs = command.split(" /");
             tasks.add(inputs);
