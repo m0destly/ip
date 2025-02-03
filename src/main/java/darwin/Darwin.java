@@ -18,6 +18,9 @@ public class Darwin {
         }
     }
 
+    /**
+     * Runs the main program of the Darwin chatbot.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
