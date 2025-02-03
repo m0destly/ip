@@ -200,10 +200,10 @@ public class TaskList {
 
     public void find(String keyword) throws DarwinException {
         ArrayList<Task> findKeyword = new ArrayList<>();
-        if (taskList.isEmpty()) {
+        if (tasks.isEmpty()) {
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
         }
-        for (Task curr : taskList) {
+        for (Task curr : tasks) {
             if (curr.getDescription().contains(keyword)) {
                 findKeyword.add(curr);
             }
