@@ -3,7 +3,7 @@ package darwin;
 import java.util.Scanner;
 
 public class Ui {
-    private static final String divider = "____________________________________________________________";
+    private static final String DIVIDER = "____________________________________________________________";
     private Scanner scanner;
 
     public Ui() {
@@ -11,15 +11,15 @@ public class Ui {
     }
 
     public void showWelcome() {
-        System.out.println(divider + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + divider);
+        System.out.println(DIVIDER + "\nHello, I'm Darwin!\nWhat can I do for you?\n" + DIVIDER);
     }
 
     public void showExit() {
-        System.out.println(divider + "\nBye. Hope to see you again soon!\n" + divider);
+        System.out.println(DIVIDER + "\nBye. Hope to see you again soon!\n" + DIVIDER);
     }
 
     public void showLine() {
-        System.out.println(divider);
+        System.out.println(DIVIDER);
     }
 
     public String readCommand() {
