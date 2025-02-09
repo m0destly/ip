@@ -5,43 +5,27 @@ import exception.DarwinException;
 public class Darwin {
     private Storage storage;
     private TaskList tasks;
-    private Ui ui;
 
     public Darwin(String filePath) {
-        ui = new Ui();
         storage = new Storage(filePath);
         try {
             tasks = new TaskList(storage.load());
         } catch (DarwinException e) {
-            ui.showError(e.getMessage());
+            Ui.showError(e.getMessage());
             tasks = new TaskList();
         }
     }
 
-    /**
-     * Runs the main program of the Darwin chatbot.
-     */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
-                isExit = Parser.parse(fullCommand, tasks);
-            } catch (DarwinException e) {
-                ui.showError(e.getMessage());
-            } finally {
-                if (!isExit) {
-                    ui.showLine();
-                }
+    public String getResponse(String input) {
+        try {
+            String output = Parser.parse(input, tasks);
+            if (output.equals(Ui.showExit())) {
+                storage.save(tasks);
             }
+            return output;
+        } catch (DarwinException e) {
+            return e.getMessage();
         }
-        storage.save(tasks);
-        ui.showExit();
     }
 
-    public static void main(String[] args) {
-        new Darwin("data/darwin.tmp").run();
-    }
 }

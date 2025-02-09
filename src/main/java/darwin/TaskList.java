@@ -32,29 +32,33 @@ public class TaskList {
     }
 
     /**
-     * Prints all tasks currently in the tasklist.
+     * Returns a String of all tasks currently in the tasklist.
      *
+     * @return String to display all tasks currently in the tasklist.
      * @throws DarwinException If there are no tasks currently.
      */
-    public void list() throws DarwinException {
+    public String list() throws DarwinException {
+        String output = "";
         // No tasks
         if (tasks.isEmpty()) {
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
         }
-        System.out.println("Here are the tasks in your list:");
+        output = output.concat("Here are the tasks in your list:");
         for (int i = 1; i <= tasks.size(); i++) {
             Task task = tasks.get(i - 1);
-            System.out.println(i + "." + task);
+            output = output.concat("\n" + i + "." + task);
         }
+        return output;
     }
 
     /**
      * Marks the task specified by the index.
      *
      * @param index The integer representing the index position of the task.
+     * @return String to inform user that the task has been marked.
      * @throws DarwinException If the task is already marked or there is no task at the index position.
      */
-    public void mark(int index) throws DarwinException {
+    public String mark(int index) throws DarwinException {
         try {
             Task task = tasks.get(index);
             // Already marked
@@ -62,8 +66,10 @@ public class TaskList {
                 throw new DarwinException(ErrorMessage.ALREADY_MARKED.message());
             }
             task.mark();
-            System.out.println("Nice! I've marked this task as done:");
-            System.out.println("  " + task);
+            String output = "";
+            output = output.concat("Nice! I've marked this task as done:\n");
+            output = output.concat("  " + task);
+            return output;
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
         }
@@ -73,9 +79,10 @@ public class TaskList {
      * Unmarks the task specified by the index.
      *
      * @param index The integer representing the index position of the task.
+     * @return String to inform user that the task has been unmarked.
      * @throws DarwinException If the task is already unmarked or there is no task at the index position.
      */
-    public void unmark(int index) throws DarwinException {
+    public String unmark(int index) throws DarwinException {
         try {
             Task task = tasks.get(index);
             // Already unmarked
@@ -83,8 +90,10 @@ public class TaskList {
                 throw new DarwinException(ErrorMessage.ALREADY_UNMARKED.message());
             }
             task.unmark();
-            System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println("  " + task);
+            String output = "";
+            output = output.concat("OK, I've marked this task as not done yet:\n");
+            output = output.concat("  " + task);
+            return output;
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
         }
@@ -94,9 +103,10 @@ public class TaskList {
      * Adds a new task to the tasklist.
      *
      * @param inputs The string array that splits the original string into respective fields.
+     * @return String to inform user that the task has been added.
      * @throws DarwinException If the format of the command is violated or command is not understood.
      */
-    public void add(String[] inputs) throws DarwinException {
+    public String add(String[] inputs) throws DarwinException {
         if (inputs[0].equals("todo") || inputs[0].startsWith("todo ")) {
             try {
                 String description = inputs[0].substring(5).trim();
@@ -170,35 +180,47 @@ public class TaskList {
         } else {
             throw new DarwinException(ErrorMessage.UNKNOWN.message());
         }
+        String output = "";
         // Retrieves current task from back
         Task task = tasks.get(tasks.size() - 1);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
+        output = output.concat("Got it. I've added this task:\n");
+        output = output.concat("  " + task + "\n");
         // Checks for singular task
-        System.out.println("Now you have " + tasks.size() +
+        output = output.concat("Now you have " + tasks.size() +
                 (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+        return output;
     }
 
     /**
      * Deletes the task at the specified index from the tasklist.
      *
      * @param index The integer representing the index position of the task.
+     * @return String to inform the user that the task has been deleted.
      * @throws DarwinException If there is no task at the index position.
      */
-    public void delete(int index) throws DarwinException {
+    public String delete(int index) throws DarwinException {
         try {
+            String output = "";
             Task task = tasks.get(index);
             tasks.remove(index);
-            System.out.println("Noted. I've removed this task:");
-            System.out.println("  " + task);
-            System.out.println("Now you have " + (tasks.isEmpty() ? "no" : tasks.size()) +
+            output = output.concat("Noted. I've removed this task:\n");
+            output = output.concat("  " + task + "\n");
+            output = output.concat("Now you have " + (tasks.isEmpty() ? "no" : tasks.size()) +
                     (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+            return output;
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
         }
     }
 
-    public void find(String keyword) throws DarwinException {
+    /**
+     * Finds tasks containing the keyword and returns it similar to the list format.
+     *
+     * @param keyword The string that represents the keyword to be searched.
+     * @return String to display all tasks currently in the tasklist that contain the keyword.
+     * @throws DarwinException If there are no tasks in the tasklist or none that match.
+     */
+    public String find(String keyword) throws DarwinException {
         ArrayList<Task> findKeyword = new ArrayList<>();
         if (tasks.isEmpty()) {
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
@@ -211,10 +233,12 @@ public class TaskList {
         if (findKeyword.isEmpty()) {
             throw new DarwinException(ErrorMessage.NO_MATCHES.message());
         }
-        System.out.println("Here are the matching tasks in your list:");
+        String output = "";
+        output = output.concat("Here are the matching tasks in your list:");
         for (int i = 1; i <= findKeyword.size(); i++) {
             Task containsKeyword = findKeyword.get(i - 1);
-            System.out.println(i + "." + containsKeyword);
+            output = output.concat("\n" + i + "." + containsKeyword);
         }
+        return output;
     }
 }

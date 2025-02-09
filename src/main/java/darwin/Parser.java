@@ -4,20 +4,21 @@ import exception.DarwinException;
 import exception.ErrorMessage;
 
 public class Parser {
+
     /**
-     * Returns a boolean to indicate if the program is passed an exit command.
+     * Returns a String for the chatbot to output to the user.
      * Parses the command string and calls the relevant methods.
      *
      * @param command The string passed into the program by the user.
      * @param taskList The tasklist containing the tasks.
-     * @return True if the command is parsed as the exit command, otherwise false.
+     * @return String containing output determined by task operation.
      * @throws DarwinException If the format of the command is violated.
      */
-    public static boolean parse(String command, TaskList taskList) throws DarwinException {
+    public static String parse(String command, TaskList taskList) throws DarwinException {
         if (command.equals("bye")) {
-            return true;
+            return Ui.showExit();
         } else if (command.equals("list")) {
-            taskList.list();
+            return taskList.list();
         } else if (command.equals("mark") || command.startsWith("mark ")) {
             try {
                 String index = command.substring(4).trim();
@@ -26,7 +27,7 @@ public class Parser {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.message());
                 }
                 int taskNumber = Integer.parseInt(index) - 1;
-                taskList.mark(taskNumber);
+                return taskList.mark(taskNumber);
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
@@ -38,7 +39,7 @@ public class Parser {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_UNMARK.message());
                 }
                 int taskNumber = Integer.parseInt(index) - 1;
-                taskList.unmark(taskNumber);
+                return taskList.unmark(taskNumber);
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
@@ -50,7 +51,7 @@ public class Parser {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
                 }
                 int taskNumber = Integer.parseInt(index) - 1;
-                taskList.delete(taskNumber);
+                return taskList.delete(taskNumber);
             } catch (NumberFormatException e) {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
@@ -59,11 +60,10 @@ public class Parser {
             if (keyword.isEmpty()) {
                 throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
             }
-            taskList.find(keyword);
+            return taskList.find(keyword);
         } else {
             String[] inputs = command.split(" /");
-            taskList.add(inputs);
+            return taskList.add(inputs);
         }
-        return false;
     }
 }
