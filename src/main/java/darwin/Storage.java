@@ -1,8 +1,5 @@
 package darwin;
 
-import exception.DarwinException;
-import task.Task;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import exception.DarwinException;
+import task.Task;
 
 public class Storage {
     private final String filePath;
@@ -31,6 +31,7 @@ public class Storage {
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<Task> tasks = (ArrayList<Task>) ois.readObject();
             ois.close();
+            assert !tasks.isEmpty() : "Tasks should exist";
             System.out.println(tasks.size() + (tasks.size() > 1 ? " tasks loaded." : " task loaded."));
             return tasks;
         } catch (FileNotFoundException e) {
