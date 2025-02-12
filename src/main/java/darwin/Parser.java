@@ -4,6 +4,10 @@ import exception.DarwinException;
 import exception.ErrorMessage;
 
 public class Parser {
+    private static final int MARK_INDEX = 4;
+    private static final int UNMARK_INDEX = 6;
+    private static final int DELETE_INDEX = 6;
+    private static final int FIND_INDEX = 4;
 
     /**
      * Returns a String for the chatbot to output to the user.
@@ -21,7 +25,7 @@ public class Parser {
             return taskList.list();
         } else if (command.equals("mark") || command.startsWith("mark ")) {
             try {
-                String index = command.substring(4).trim();
+                String index = command.substring(Parser.MARK_INDEX).trim();
                 // No index
                 if (index.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.message());
@@ -33,7 +37,7 @@ public class Parser {
             }
         } else if (command.equals("unmark") || command.startsWith("unmark ")) {
             try {
-                String index = command.substring(6).trim();
+                String index = command.substring(Parser.UNMARK_INDEX).trim();
                 // No index
                 if (index.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_UNMARK.message());
@@ -45,7 +49,7 @@ public class Parser {
             }
         } else if (command.equals("delete") || command.startsWith("delete ")) {
             try {
-                String index = command.substring(6).trim();
+                String index = command.substring(Parser.DELETE_INDEX).trim();
                 // No index
                 if (index.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
@@ -56,7 +60,7 @@ public class Parser {
                 throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
             }
         } else if (command.equals("find") || command.startsWith("find ")) {
-            String keyword = command.substring(4).trim();
+            String keyword = command.substring(Parser.FIND_INDEX).trim();
             if (keyword.isEmpty()) {
                 throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
             }

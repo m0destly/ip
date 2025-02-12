@@ -12,6 +12,16 @@ import task.Task;
 import task.Todo;
 
 public class TaskList {
+    private static final int TASK_TYPE_DESCRIPTION = 0;
+    private static final int DEADLINE_DATE = 1;
+    private static final int EVENT_FROM = 1;
+    private static final int EVENT_TO = 2;
+    private static final int TODO_DESCRIPTION_INDEX = 5;
+    private static final int DEADLINE_DESCRIPTION_INDEX = 9;
+    private static final int EVENT_DESCRIPTION_INDEX = 6;
+    private static final int DEADLINE_DATE_INDEX = 2;
+    private static final int EVENT_FROM_INDEX = 4;
+    private static final int EVENT_TO_INDEX = 2;
     private ArrayList<Task> tasks;
 
     public TaskList() {
@@ -38,12 +48,11 @@ public class TaskList {
      * @throws DarwinException If there are no tasks currently.
      */
     public String list() throws DarwinException {
-        String output = "";
         // No tasks
         if (tasks.isEmpty()) {
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
         }
-        output = output.concat("Here are the tasks in your list:");
+        String output = "Here are the tasks in your list:";
         for (int i = 1; i <= tasks.size(); i++) {
             Task task = tasks.get(i - 1);
             output = output.concat("\n" + i + "." + task);
@@ -66,9 +75,7 @@ public class TaskList {
                 throw new DarwinException(ErrorMessage.ALREADY_MARKED.message());
             }
             task.mark();
-            String output = "";
-            output = output.concat("Nice! I've marked this task as done:\n");
-            output = output.concat("  " + task);
+            String output = "Nice! I've marked this task as done:\n  " + task;
             return output;
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
@@ -90,9 +97,7 @@ public class TaskList {
                 throw new DarwinException(ErrorMessage.ALREADY_UNMARKED.message());
             }
             task.unmark();
-            String output = "";
-            output = output.concat("OK, I've marked this task as not done yet:\n");
-            output = output.concat("  " + task);
+            String output = "OK, I've marked this task as not done yet:\n  " + task;
             return output;
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
@@ -107,9 +112,9 @@ public class TaskList {
      * @throws DarwinException If the format of the command is violated or command is not understood.
      */
     public String add(String[] inputs) throws DarwinException {
-        if (inputs[0].equals("todo") || inputs[0].startsWith("todo ")) {
+        if (inputs[TASK_TYPE_DESCRIPTION].equals("todo") || inputs[TASK_TYPE_DESCRIPTION].startsWith("todo ")) {
             try {
-                String description = inputs[0].substring(5).trim();
+                String description = inputs[TASK_TYPE_DESCRIPTION].substring(TODO_DESCRIPTION_INDEX).trim();
                 // No description
                 if (description.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
@@ -118,20 +123,20 @@ public class TaskList {
             } catch (IndexOutOfBoundsException e) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
             }
-        } else if (inputs[0].equals("deadline") || inputs[0].startsWith("deadline ")) {
+        } else if (inputs[TASK_TYPE_DESCRIPTION].equals("deadline") || inputs[TASK_TYPE_DESCRIPTION].startsWith("deadline ")) {
             try {
-                String description = inputs[0].substring(9).trim();
+                String description = inputs[TASK_TYPE_DESCRIPTION].substring(DEADLINE_DESCRIPTION_INDEX).trim();
                 // No description
                 if (description.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
                 }
-                String deadline = inputs[1];
+                String deadline = inputs[DEADLINE_DATE];
                 // Does not begin with by
                 if (!(deadline.equals("by") || deadline.startsWith("by "))) {
                     throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
                 }
                 // No deadline
-                deadline = deadline.substring(2).trim();
+                deadline = deadline.substring(DEADLINE_DATE_INDEX).trim();
                 if (deadline.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_DEADLINE.message());
                 }
@@ -142,30 +147,30 @@ public class TaskList {
             } catch (IndexOutOfBoundsException e) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
             }
-        } else if (inputs[0].equals("event") || inputs[0].startsWith("event ")) {
+        } else if (inputs[TASK_TYPE_DESCRIPTION].equals("event") || inputs[TASK_TYPE_DESCRIPTION].startsWith("event ")) {
             try {
-                String description = inputs[0].substring(6).trim();
+                String description = inputs[TASK_TYPE_DESCRIPTION].substring(EVENT_DESCRIPTION_INDEX).trim();
                 // No description
                 if (description.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
                 }
-                String from = inputs[1];
+                String from = inputs[EVENT_FROM];
                 // Does not begin with from
                 if (!(from.equals("from") || from.startsWith("from "))) {
                     throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
                 }
-                from = from.substring(4).trim();
+                from = from.substring(EVENT_FROM_INDEX).trim();
                 // No start time
                 if (from.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_START.message());
                 }
                 LocalDate fromDate = LocalDate.parse(from);
-                String to = inputs[2];
+                String to = inputs[EVENT_TO];
                 // Does not begin with to
                 if (!(to.equals("to") || to.startsWith("to "))) {
                     throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
                 }
-                to = to.substring(2).trim();
+                to = to.substring(EVENT_TO_INDEX).trim();
                 // No end time
                 if (to.isEmpty()) {
                     throw new DarwinException(ErrorMessage.MISSING_END.message());
@@ -180,14 +185,16 @@ public class TaskList {
         } else {
             throw new DarwinException(ErrorMessage.UNKNOWN.message());
         }
-        String output = "";
+
         // Retrieves current task from back
         Task task = tasks.get(tasks.size() - 1);
-        output = output.concat("Got it. I've added this task:\n");
-        output = output.concat("  " + task + "\n");
-        // Checks for singular task
-        output = output.concat("Now you have " + tasks.size() +
-                (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+        String output = "Got it. I've added this task:\n  " + task + "\nNow you have ";
+        if (tasks.size() == 1) {
+            output = output.concat("1 task");
+        } else {
+            output = output.concat(tasks.size() + " tasks");
+        }
+        output = output.concat(" in the list.");
         return output;
     }
 
@@ -200,13 +207,15 @@ public class TaskList {
      */
     public String delete(int index) throws DarwinException {
         try {
-            String output = "";
             Task task = tasks.get(index);
             tasks.remove(index);
-            output = output.concat("Noted. I've removed this task:\n");
-            output = output.concat("  " + task + "\n");
-            output = output.concat("Now you have " + (tasks.isEmpty() ? "no" : tasks.size()) +
-                    (tasks.size() == 1 ? " task " : " tasks ") + "in the list.");
+            String output = "Noted. I've removed this task:\n  " + task + "\nNow you have ";
+            if (tasks.size() == 1) {
+                output = output.concat("1 task");
+            } else {
+                output = output.concat(tasks.size() + " tasks");
+            }
+            output = output.concat(" in the list.");
             return output;
         } catch (IndexOutOfBoundsException e) {
             throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
@@ -221,22 +230,21 @@ public class TaskList {
      * @throws DarwinException If there are no tasks in the tasklist or none that match.
      */
     public String find(String keyword) throws DarwinException {
-        ArrayList<Task> findKeyword = new ArrayList<>();
+        ArrayList<Task> tasksContainKeyword = new ArrayList<>();
         if (tasks.isEmpty()) {
             throw new DarwinException(ErrorMessage.MISSING_TASK.message());
         }
         for (Task curr : tasks) {
             if (curr.getDescription().contains(keyword)) {
-                findKeyword.add(curr);
+                tasksContainKeyword.add(curr);
             }
         }
-        if (findKeyword.isEmpty()) {
+        if (tasksContainKeyword.isEmpty()) {
             throw new DarwinException(ErrorMessage.NO_MATCHES.message());
         }
-        String output = "";
-        output = output.concat("Here are the matching tasks in your list:");
-        for (int i = 1; i <= findKeyword.size(); i++) {
-            Task containsKeyword = findKeyword.get(i - 1);
+        String output = "Here are the matching tasks in your list:";
+        for (int i = 1; i <= tasksContainKeyword.size(); i++) {
+            Task containsKeyword = tasksContainKeyword.get(i - 1);
             output = output.concat("\n" + i + "." + containsKeyword);
         }
         return output;
