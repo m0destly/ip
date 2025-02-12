@@ -31,6 +31,7 @@ public class Storage {
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<Task> tasks = (ArrayList<Task>) ois.readObject();
             ois.close();
+            assert !tasks.isEmpty() : "Tasks should exist";
             System.out.print(tasks.size());
             if (tasks.size() == 1) {
                 System.out.println(" task loaded.");

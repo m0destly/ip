@@ -2,13 +2,12 @@ package gui;
 
 import java.io.IOException;
 
+import darwin.Darwin;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import darwin.Darwin;
 
 /**
  * A GUI for Darwin using FXML.
