@@ -23,6 +23,8 @@ public class Parser {
             return Ui.showExit();
         } else if (command.equals("list")) {
             return taskList.list();
+        } else if (command.equals("help")) {
+            return Ui.showHelp();
         } else if (command.equals("mark") || command.startsWith("mark ")) {
             try {
                 String index = command.substring(Parser.MARK_INDEX).trim();
