@@ -57,5 +57,10 @@ public class MainWindow extends AnchorPane {
             System.exit(0);
         }
     }
+
+    @FXML
+    public void handleWindowClose() {
+        darwin.saveTasks();
+    }
 }
 

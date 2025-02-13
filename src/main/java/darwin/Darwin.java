@@ -18,14 +18,18 @@ public class Darwin {
 
     public String getResponse(String input) {
         try {
-            String output = Parser.parse(input, tasks);
+            String output = Parser.parse(input.trim(), tasks);
             if (output.equals(Ui.showExit())) {
-                storage.save(tasks);
+                saveTasks();
             }
             return output;
         } catch (DarwinException e) {
             return e.getMessage();
         }
+    }
+
+    public void saveTasks() {
+        storage.save(tasks);
     }
 
 }
