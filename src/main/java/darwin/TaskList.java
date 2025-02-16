@@ -105,87 +105,111 @@ public class TaskList {
     }
 
     /**
-     * Adds a new task to the tasklist.
+     * Adds a new Todo task to the tasklist.
      *
      * @param inputs The string array that splits the original string into respective fields.
      * @return String to inform user that the task has been added.
      * @throws DarwinException If the format of the command is violated or command is not understood.
      */
-    public String add(String[] inputs) throws DarwinException {
-        if (inputs[TASK_TYPE_DESCRIPTION].equals("todo") || inputs[TASK_TYPE_DESCRIPTION].startsWith("todo ")) {
-            try {
-                String description = inputs[TASK_TYPE_DESCRIPTION].substring(TODO_DESCRIPTION_INDEX).trim();
-                // No description
-                if (description.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
-                }
-                tasks.add(new Todo(description));
-            } catch (IndexOutOfBoundsException e) {
+    public String addTodo(String[] inputs) throws DarwinException {
+        try {
+            String description = inputs[TASK_TYPE_DESCRIPTION].substring(TODO_DESCRIPTION_INDEX).trim();
+            // No description
+            if (description.isEmpty()) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
             }
-        } else if (inputs[TASK_TYPE_DESCRIPTION].equals("deadline") || inputs[TASK_TYPE_DESCRIPTION].startsWith("deadline ")) {
-            try {
-                String description = inputs[TASK_TYPE_DESCRIPTION].substring(DEADLINE_DESCRIPTION_INDEX).trim();
-                // No description
-                if (description.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
-                }
-                String deadline = inputs[DEADLINE_DATE];
-                // Does not begin with by
-                if (!(deadline.equals("by") || deadline.startsWith("by "))) {
-                    throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
-                }
-                // No deadline
-                deadline = deadline.substring(DEADLINE_DATE_INDEX).trim();
-                if (deadline.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_DEADLINE.message());
-                }
-                LocalDate date = LocalDate.parse(deadline);
-                tasks.add(new Deadline(description, date));
-            } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
-                throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
-            } catch (IndexOutOfBoundsException e) {
+            tasks.add(new Todo(description));
+            return addMessage();
+        } catch (IndexOutOfBoundsException e) {
+            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
+        }
+    }
+
+    /**
+     * Adds a new Deadline task to the tasklist.
+     *
+     * @param inputs The string array that splits the original string into respective fields.
+     * @return String to inform user that the task has been added.
+     * @throws DarwinException If the format of the command is violated or command is not understood.
+     */
+    public String addDeadline(String[] inputs) throws DarwinException {
+        try {
+            String description = inputs[TASK_TYPE_DESCRIPTION].substring(DEADLINE_DESCRIPTION_INDEX).trim();
+            // No description
+            if (description.isEmpty()) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
             }
-        } else if (inputs[TASK_TYPE_DESCRIPTION].equals("event") || inputs[TASK_TYPE_DESCRIPTION].startsWith("event ")) {
-            try {
-                String description = inputs[TASK_TYPE_DESCRIPTION].substring(EVENT_DESCRIPTION_INDEX).trim();
-                // No description
-                if (description.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
-                }
-                String from = inputs[EVENT_FROM];
-                // Does not begin with from
-                if (!(from.equals("from") || from.startsWith("from "))) {
-                    throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
-                }
-                from = from.substring(EVENT_FROM_INDEX).trim();
-                // No start time
-                if (from.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_START.message());
-                }
-                LocalDate fromDate = LocalDate.parse(from);
-                String to = inputs[EVENT_TO];
-                // Does not begin with to
-                if (!(to.equals("to") || to.startsWith("to "))) {
-                    throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
-                }
-                to = to.substring(EVENT_TO_INDEX).trim();
-                // No end time
-                if (to.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_END.message());
-                }
-                LocalDate toDate = LocalDate.parse(to);
-                tasks.add(new Event(description, fromDate, toDate));
-            } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
-                throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
-            } catch (IndexOutOfBoundsException e) {
+            String deadline = inputs[DEADLINE_DATE];
+            // Does not begin with by
+            if (!(deadline.equals("by") || deadline.startsWith("by "))) {
+                throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
+            }
+            // No deadline
+            deadline = deadline.substring(DEADLINE_DATE_INDEX).trim();
+            if (deadline.isEmpty()) {
+                throw new DarwinException(ErrorMessage.MISSING_DEADLINE.message());
+            }
+            LocalDate date = LocalDate.parse(deadline);
+            tasks.add(new Deadline(description, date));
+            return addMessage();
+        } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
+            throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
+        } catch (IndexOutOfBoundsException e) {
+            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
+        }
+    }
+
+    /**
+     * Adds a new Event task to the tasklist.
+     *
+     * @param inputs The string array that splits the original string into respective fields.
+     * @return String to inform user that the task has been added.
+     * @throws DarwinException If the format of the command is violated or command is not understood.
+     */
+    public String addEvent(String[] inputs) throws DarwinException {
+        try {
+            String description = inputs[TASK_TYPE_DESCRIPTION].substring(EVENT_DESCRIPTION_INDEX).trim();
+            // No description
+            if (description.isEmpty()) {
                 throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
             }
-        } else {
-            throw new DarwinException(ErrorMessage.UNKNOWN.message());
+            String from = inputs[EVENT_FROM];
+            // Does not begin with from
+            if (!(from.equals("from") || from.startsWith("from "))) {
+                throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
+            }
+            from = from.substring(EVENT_FROM_INDEX).trim();
+            // No start time
+            if (from.isEmpty()) {
+                throw new DarwinException(ErrorMessage.MISSING_START.message());
+            }
+            LocalDate fromDate = LocalDate.parse(from);
+            String to = inputs[EVENT_TO];
+            // Does not begin with to
+            if (!(to.equals("to") || to.startsWith("to "))) {
+                throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
+            }
+            to = to.substring(EVENT_TO_INDEX).trim();
+            // No end time
+            if (to.isEmpty()) {
+                throw new DarwinException(ErrorMessage.MISSING_END.message());
+            }
+            LocalDate toDate = LocalDate.parse(to);
+            tasks.add(new Event(description, fromDate, toDate));
+            return addMessage();
+        } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
+            throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
+        } catch (IndexOutOfBoundsException e) {
+            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
         }
+    }
 
+    /**
+     * Creates the output message for the add task.
+     *
+     * @return String to inform user that the task has been added.
+     */
+    public String addMessage() {
         // Retrieves current task from back
         Task task = tasks.get(tasks.size() - 1);
         String output = "Got it. I've added this task:\n  " + task + "\nNow you have ";

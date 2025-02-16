@@ -8,6 +8,7 @@ public class Parser {
     private static final int UNMARK_INDEX = 6;
     private static final int DELETE_INDEX = 6;
     private static final int FIND_INDEX = 4;
+    private static final int TASK_TYPE = 0;
 
     /**
      * Returns a String for the chatbot to output to the user.
@@ -90,7 +91,16 @@ public class Parser {
 
     private static String parseAdd(String addCommand, TaskList taskList) throws DarwinException {
         String[] inputs = addCommand.split(" /");
-        return taskList.add(inputs);
+        if (inputs[TASK_TYPE].equals("todo") || inputs[TASK_TYPE].startsWith("todo ")) {
+            return taskList.addTodo(inputs);
+        } else if (inputs[TASK_TYPE].equals("deadline") || inputs[TASK_TYPE].startsWith("deadline ")) {
+            return taskList.addDeadline(inputs);
+        } else if (inputs[TASK_TYPE].equals("event") || inputs[TASK_TYPE].startsWith("event ")) {
+            return taskList.addEvent(inputs);
+        } else {
+            // Not a command
+            throw new DarwinException(ErrorMessage.UNKNOWN.message());
+        }
     }
 
 }
