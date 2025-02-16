@@ -34,8 +34,7 @@ public class Parser {
         } else if (command.equals("find") || command.startsWith("find ")) {
             return parseFind(command, taskList);
         } else {
-            String[] inputs = command.split(" /");
-            return taskList.add(inputs);
+            return parseAdd(command, taskList);
         }
     }
 
@@ -87,6 +86,11 @@ public class Parser {
             throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
         }
         return taskList.find(keyword);
+    }
+
+    private static String parseAdd(String addCommand, TaskList taskList) throws DarwinException {
+        String[] inputs = addCommand.split(" /");
+        return taskList.add(inputs);
     }
 
 }
