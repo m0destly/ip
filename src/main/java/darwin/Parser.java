@@ -13,7 +13,7 @@ public class Parser {
      * Returns a String for the chatbot to output to the user.
      * Parses the command string and calls the relevant methods.
      *
-     * @param command The string passed into the program by the user.
+     * @param command  The string passed into the program by the user.
      * @param taskList The tasklist containing the tasks.
      * @return String containing output determined by task operation.
      * @throws DarwinException If the format of the command is violated.
@@ -26,17 +26,7 @@ public class Parser {
         } else if (command.equals("help")) {
             return Ui.showHelp();
         } else if (command.equals("mark") || command.startsWith("mark ")) {
-            try {
-                String index = command.substring(Parser.MARK_INDEX).trim();
-                // No index
-                if (index.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.message());
-                }
-                int taskNumber = Integer.parseInt(index) - 1;
-                return taskList.mark(taskNumber);
-            } catch (NumberFormatException e) {
-                throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
-            }
+            return parseMark(command, taskList);
         } else if (command.equals("unmark") || command.startsWith("unmark ")) {
             try {
                 String index = command.substring(Parser.UNMARK_INDEX).trim();
@@ -72,4 +62,19 @@ public class Parser {
             return taskList.add(inputs);
         }
     }
+
+    private static String parseMark(String markCommand, TaskList taskList) throws DarwinException {
+        try {
+            String index = markCommand.substring(Parser.MARK_INDEX).trim();
+            // No index
+            if (index.isEmpty()) {
+                throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.message());
+            }
+            int taskNumber = Integer.parseInt(index) - 1;
+            return taskList.mark(taskNumber);
+        } catch (NumberFormatException e) {
+            throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
+        }
+    }
+
 }
