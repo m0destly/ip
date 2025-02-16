@@ -12,9 +12,9 @@ public class Parser {
 
     /**
      * Returns a String for the chatbot to output to the user.
-     * Parses the command string and calls the relevant methods.
+     * Parses the command string by calling relevant parse methods.
      *
-     * @param command  The string passed into the program by the user.
+     * @param command The string passed into the program by the user.
      * @param taskList The tasklist containing the tasks.
      * @return String containing output determined by task operation.
      * @throws DarwinException If the format of the command is violated.
@@ -39,6 +39,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns a String for the chatbot to output to the user.
+     * Parses the String as a mark command and calls mark method on the TaskList object.
+     *
+     * @param markCommand The string recognised as a mark command.
+     * @param taskList The tasklist containing the tasks.
+     * @return String containing output for the mark operation.
+     * @throws DarwinException If the format of the command is violated.
+     */
     private static String parseMark(String markCommand, TaskList taskList) throws DarwinException {
         try {
             String index = markCommand.substring(Parser.MARK_INDEX).trim();
@@ -53,6 +62,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns a String for the chatbot to output to the user.
+     * Parses the String as an unmark command and calls unmark method on the TaskList object.
+     *
+     * @param unmarkCommand The string recognised as an unmark command.
+     * @param taskList The tasklist containing the tasks.
+     * @return String containing output for the unmark operation.
+     * @throws DarwinException If the format of the command is violated.
+     */
     private static String parseUnmark(String unmarkCommand, TaskList taskList) throws DarwinException {
         try {
             String index = unmarkCommand.substring(Parser.UNMARK_INDEX).trim();
@@ -67,6 +85,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns a String for the chatbot to output to the user.
+     * Parses the String as a delete command and calls delete method on the TaskList object.
+     *
+     * @param deleteCommand The string recognised as a delete command.
+     * @param taskList The tasklist containing the tasks.
+     * @return String containing output for the delete operation.
+     * @throws DarwinException If the format of the command is violated.
+     */
     private static String parseDelete(String deleteCommand, TaskList taskList) throws DarwinException {
         try {
             String index = deleteCommand.substring(Parser.DELETE_INDEX).trim();
@@ -81,6 +108,15 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns a String for the chatbot to output to the user.
+     * Parses the String as a find command and calls find method on the TaskList object.
+     *
+     * @param findCommand The string recognised as a find command.
+     * @param taskList The tasklist containing the tasks.
+     * @return String containing output for the find operation.
+     * @throws DarwinException If the format of the command is violated.
+     */
     private static String parseFind(String findCommand, TaskList taskList) throws DarwinException {
         String keyword = findCommand.substring(Parser.FIND_INDEX).trim();
         if (keyword.isEmpty()) {
@@ -89,6 +125,15 @@ public class Parser {
         return taskList.find(keyword);
     }
 
+    /**
+     * Returns a String for the chatbot to output to the user.
+     * Parses the String as an add command and calls the add method on the TaskList object.
+     *
+     * @param addCommand The string recognised as an add command.
+     * @param taskList The tasklist containing the tasks.
+     * @return String containing output for the add operation.
+     * @throws DarwinException If the format of the command is violated.
+     */
     private static String parseAdd(String addCommand, TaskList taskList) throws DarwinException {
         String[] inputs = addCommand.split(" /");
         if (inputs[TASK_TYPE].equals("todo") || inputs[TASK_TYPE].startsWith("todo ")) {
@@ -102,5 +147,4 @@ public class Parser {
             throw new DarwinException(ErrorMessage.UNKNOWN.message());
         }
     }
-
 }
