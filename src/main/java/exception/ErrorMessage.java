@@ -15,8 +15,9 @@ public enum ErrorMessage {
     MISSING_DEADLINE("Missing deadline.\nUsage: deadline [description] /by [yyyy-mm-dd]"),
     WRONG_DEADLINE("Wrong format.\nUsage: deadline [description] /by [yyyy-mm-dd]"),
     WRONG_EVENT("Wrong format.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
-    MISSING_START("Missing start time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
-    MISSING_END("Missing end time.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    MISSING_START("Missing start date.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    MISSING_END("Missing end date.\nUsage: event [description] /from [yyyy-mm-dd] /to [yyyy-mm-dd]"),
+    ILLEGAL_DATES("End date cannot be before start date."),
     MISSING_KEYWORD("Missing keyword.\nUsage: find [keyword]"),
     NO_MATCHES("No matching tasks found."),
     UNKNOWN("This command is yet to be understood.");
