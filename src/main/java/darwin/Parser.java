@@ -30,17 +30,7 @@ public class Parser {
         } else if (command.equals("unmark") || command.startsWith("unmark ")) {
             return parseUnmark(command, taskList);
         } else if (command.equals("delete") || command.startsWith("delete ")) {
-            try {
-                String index = command.substring(Parser.DELETE_INDEX).trim();
-                // No index
-                if (index.isEmpty()) {
-                    throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
-                }
-                int taskNumber = Integer.parseInt(index) - 1;
-                return taskList.delete(taskNumber);
-            } catch (NumberFormatException e) {
-                throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
-            }
+            return parseDelete(command, taskList);
         } else if (command.equals("find") || command.startsWith("find ")) {
             String keyword = command.substring(Parser.FIND_INDEX).trim();
             if (keyword.isEmpty()) {
@@ -76,6 +66,20 @@ public class Parser {
             }
             int taskNumber = Integer.parseInt(index) - 1;
             return taskList.unmark(taskNumber);
+        } catch (NumberFormatException e) {
+            throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
+        }
+    }
+
+    private static String parseDelete(String deleteCommand, TaskList taskList) throws DarwinException {
+        try {
+            String index = deleteCommand.substring(Parser.DELETE_INDEX).trim();
+            // No index
+            if (index.isEmpty()) {
+                throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
+            }
+            int taskNumber = Integer.parseInt(index) - 1;
+            return taskList.delete(taskNumber);
         } catch (NumberFormatException e) {
             throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
         }
