@@ -32,11 +32,7 @@ public class Parser {
         } else if (command.equals("delete") || command.startsWith("delete ")) {
             return parseDelete(command, taskList);
         } else if (command.equals("find") || command.startsWith("find ")) {
-            String keyword = command.substring(Parser.FIND_INDEX).trim();
-            if (keyword.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
-            }
-            return taskList.find(keyword);
+            return parseFind(command, taskList);
         } else {
             String[] inputs = command.split(" /");
             return taskList.add(inputs);
@@ -83,6 +79,14 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
         }
+    }
+
+    private static String parseFind(String findCommand, TaskList taskList) throws DarwinException {
+        String keyword = findCommand.substring(Parser.FIND_INDEX).trim();
+        if (keyword.isEmpty()) {
+            throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
+        }
+        return taskList.find(keyword);
     }
 
 }
