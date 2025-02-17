@@ -24,8 +24,7 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             MainWindow controller = fxmlLoader.getController();
-            controller.setDarwin(darwin);
-            //fxmlLoader.<MainWindow>getController().setDarwin(darwin);  // inject the Darwin instance
+            controller.setDarwin(darwin);  // inject the Darwin instance
             stage.setOnCloseRequest(event -> {
                 controller.handleWindowClose();
             });

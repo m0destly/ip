@@ -1,18 +1,18 @@
-# Duke User Guide
+# Darwin User Guide
 
-// Update the title above to match the actual product name
+![Screenshot of Darwin chatbot](Ui.png)
 
-// Product screenshot goes here
+Darwin is a chatbot. That's it.
 
-// Product intro goes here
+## Adding tasks: `todo`, `deadline`, `event`
 
-## Adding deadlines
+Adds the task to the list.
 
-// Describe the action and its outcome.
+Format: `todo DESCRIPTION`
 
-// Give examples of usage
+Format: `deadline DESCRIPTION /by DEADLINE_DATE`
 
-Example: `keyword (optional arguments)`
+Format: `event DESCRIPTION /from START_DATE /to END_DATE`
 
 // A description of the expected outcome goes here
 
@@ -20,11 +20,52 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
-## Feature ABC
+## Marking tasks: `mark`
 
-// Feature details
+Marks the task at given task number as completed.
 
+Format: `mark TASK_NUMBER`
 
-## Feature XYZ
+- TASK_NUMBER must be a positive integer.
 
-// Feature details
+## Unmarking tasks: `unmark`
+
+Unmarks the task at given task number.
+
+Format `unmark TASK_NUMBER`
+
+- TASK_NUMBER must be a positive integer.
+
+## Deleting tasks: `delete`
+
+Deletes the task at given task number.
+
+Format: `delete TASK_NUMBER`
+
+- TASK_NUMBER must be a positive integer.
+
+## Finding tasks: `find`
+
+Finds all tasks that contain the given keyword.
+
+Format: `find KEYWORD`
+
+- KEYWORD must be a string.
+- KEYWORD is case-sensitive.
+
+## Listing tasks: `list`
+
+Lists all existing tasks.
+
+Format: `list`
+
+## Exit: `bye`
+
+Exits Darwin chatbot.
+
+Format: `bye`
+
+Output:
+```
+Bye. Hope to see you again soon!
+```
