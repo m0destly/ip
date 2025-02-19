@@ -57,6 +57,7 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
         if (response.equals(Ui.showExit())) {
+            // Used ChatGPT to generate code to show bye message before GUI exits
             Platform.runLater(() -> {
                 PauseTransition delay = new PauseTransition(Duration.seconds(1));
                 delay.setOnFinished(event -> Platform.exit());
