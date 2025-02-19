@@ -10,8 +10,12 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import exception.DarwinException;
+import exception.ErrorMessage;
 import task.Task;
 
+/**
+ * Class that handles the loading and saving of tasks.
+ */
 public class Storage {
     private final String filePath;
 
@@ -40,11 +44,11 @@ public class Storage {
             }
             return tasks;
         } catch (FileNotFoundException e) {
-            throw new DarwinException("No saved tasks found.");
+            throw new DarwinException(ErrorMessage.NO_SAVED_TASKS.getMessage());
         } catch (ClassNotFoundException e) {
             throw new DarwinException(e.getMessage());
         } catch (IOException e) {
-            throw new DarwinException("An error occurred loading saved tasks.");
+            throw new DarwinException(ErrorMessage.LOAD_FAIL.getMessage());
         }
     }
 
@@ -62,10 +66,8 @@ public class Storage {
                 dirs = filePath.substring(0, i);
             }
         }
-        if (!dirs.isEmpty()) {
-            if (new File(dirs).mkdirs()) {
-                System.out.println("New directory created.");
-            }
+        if (!dirs.isEmpty() && new File(dirs).mkdirs()) {
+            System.out.println("New directory created.");
         }
         if (tasks.isEmpty()) {
             System.out.println("No tasks to save.");

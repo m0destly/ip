@@ -20,6 +20,8 @@ public enum ErrorMessage {
     ILLEGAL_DATES("End date cannot be before start date."),
     MISSING_KEYWORD("Missing keyword.\nUsage: find [keyword]"),
     NO_MATCHES("No matching tasks found."),
+    NO_SAVED_TASKS("No saved tasks found."),
+    LOAD_FAIL("An error occurred while loading saved tasks."),
     UNKNOWN("This command is yet to be understood.");
 
     private final String error;
@@ -27,7 +29,7 @@ public enum ErrorMessage {
         this.error = error;
     }
 
-    public String message() {
+    public String getMessage() {
         return error;
     }
 }

@@ -2,10 +2,17 @@ package darwin;
 
 import exception.DarwinException;
 
+/**
+ * Class that initiates the chatbot.
+ */
 public class Darwin {
     private Storage storage;
     private TaskList tasks;
 
+    /**
+     * Constructor loads the saved tasks, if any.
+     * @param filePath
+     */
     public Darwin(String filePath) {
         storage = new Storage(filePath);
         try {
@@ -16,9 +23,15 @@ public class Darwin {
         }
     }
 
+    /**
+     * Processes user input and returns message to be shown.
+     * @param input The input by the user in String format.
+     * @return A string that contains the output message.
+     */
     public String getResponse(String input) {
         try {
             String output = Parser.parse(input.trim(), tasks);
+            // Saves tasks before exit
             if (output.equals(Ui.showExit())) {
                 saveTasks();
             }
@@ -28,8 +41,10 @@ public class Darwin {
         }
     }
 
+    /**
+     * Saves current tasks to the TaskList.
+     */
     public void saveTasks() {
         storage.save(tasks);
     }
-
 }

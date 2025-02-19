@@ -11,6 +11,9 @@ import task.Event;
 import task.Task;
 import task.Todo;
 
+/**
+ * Class that handles all task operations.
+ */
 public class TaskList {
     private static final int TASK_TYPE_DESCRIPTION = 0;
     private static final int DEADLINE_DATE = 1;
@@ -24,10 +27,17 @@ public class TaskList {
     private static final int EVENT_TO_INDEX = 2;
     private ArrayList<Task> tasks;
 
+    /**
+     * Constructor that has no saved tasks to load.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructor that loads saved tasks.
+     * @param tasks
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
@@ -50,7 +60,7 @@ public class TaskList {
     public String list() throws DarwinException {
         // No tasks
         if (tasks.isEmpty()) {
-            throw new DarwinException(ErrorMessage.MISSING_TASK.message());
+            throw new DarwinException(ErrorMessage.MISSING_TASK.getMessage());
         }
         String output = "Here are the tasks in your list:";
         for (int i = 1; i <= tasks.size(); i++) {
@@ -72,13 +82,13 @@ public class TaskList {
             Task task = tasks.get(index);
             // Already marked
             if (task.getStatusIcon().equals("X")) {
-                throw new DarwinException(ErrorMessage.ALREADY_MARKED.message());
+                throw new DarwinException(ErrorMessage.ALREADY_MARKED.getMessage());
             }
             task.mark();
             String output = "Nice! I've marked this task as done:\n  " + task;
             return output;
         } catch (IndexOutOfBoundsException e) {
-            throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
+            throw new DarwinException(ErrorMessage.OUT_OF_BOUND.getMessage());
         }
     }
 
@@ -94,13 +104,13 @@ public class TaskList {
             Task task = tasks.get(index);
             // Already unmarked
             if (task.getStatusIcon().equals(" ")) {
-                throw new DarwinException(ErrorMessage.ALREADY_UNMARKED.message());
+                throw new DarwinException(ErrorMessage.ALREADY_UNMARKED.getMessage());
             }
             task.unmark();
             String output = "OK, I've marked this task as not done yet:\n  " + task;
             return output;
         } catch (IndexOutOfBoundsException e) {
-            throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
+            throw new DarwinException(ErrorMessage.OUT_OF_BOUND.getMessage());
         }
     }
 
@@ -116,12 +126,12 @@ public class TaskList {
             String description = inputs[TASK_TYPE_DESCRIPTION].substring(TODO_DESCRIPTION_INDEX).trim();
             // No description
             if (description.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
+                throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.getMessage());
             }
             tasks.add(new Todo(description));
             return addMessage();
         } catch (IndexOutOfBoundsException e) {
-            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.message());
+            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_TODO.getMessage());
         }
     }
 
@@ -137,25 +147,25 @@ public class TaskList {
             String description = inputs[TASK_TYPE_DESCRIPTION].substring(DEADLINE_DESCRIPTION_INDEX).trim();
             // No description
             if (description.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
+                throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.getMessage());
             }
             String deadline = inputs[DEADLINE_DATE];
             // Does not begin with by
             if (!(deadline.equals("by") || deadline.startsWith("by "))) {
-                throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
+                throw new DarwinException(ErrorMessage.WRONG_DEADLINE.getMessage());
             }
             // No deadline
             deadline = deadline.substring(DEADLINE_DATE_INDEX).trim();
             if (deadline.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_DEADLINE.message());
+                throw new DarwinException(ErrorMessage.MISSING_DEADLINE.getMessage());
             }
             LocalDate date = LocalDate.parse(deadline);
             tasks.add(new Deadline(description, date));
             return addMessage();
         } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
-            throw new DarwinException(ErrorMessage.WRONG_DEADLINE.message());
+            throw new DarwinException(ErrorMessage.WRONG_DEADLINE.getMessage());
         } catch (IndexOutOfBoundsException e) {
-            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.message());
+            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_DEADLINE.getMessage());
         }
     }
 
@@ -171,36 +181,36 @@ public class TaskList {
             String description = inputs[TASK_TYPE_DESCRIPTION].substring(EVENT_DESCRIPTION_INDEX).trim();
             // No description
             if (description.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
+                throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.getMessage());
             }
             String from = inputs[EVENT_FROM];
             // Does not begin with from
             if (!(from.equals("from") || from.startsWith("from "))) {
-                throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
+                throw new DarwinException(ErrorMessage.WRONG_EVENT.getMessage());
             }
             from = from.substring(EVENT_FROM_INDEX).trim();
             // No start time
             if (from.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_START.message());
+                throw new DarwinException(ErrorMessage.MISSING_START.getMessage());
             }
             LocalDate fromDate = LocalDate.parse(from);
             String to = inputs[EVENT_TO];
             // Does not begin with to
             if (!(to.equals("to") || to.startsWith("to "))) {
-                throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
+                throw new DarwinException(ErrorMessage.WRONG_EVENT.getMessage());
             }
             to = to.substring(EVENT_TO_INDEX).trim();
             // No end time
             if (to.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_END.message());
+                throw new DarwinException(ErrorMessage.MISSING_END.getMessage());
             }
             LocalDate toDate = LocalDate.parse(to);
             tasks.add(new Event(description, fromDate, toDate));
             return addMessage();
         } catch (ArrayIndexOutOfBoundsException | DateTimeParseException e) {
-            throw new DarwinException(ErrorMessage.WRONG_EVENT.message());
+            throw new DarwinException(ErrorMessage.WRONG_EVENT.getMessage());
         } catch (IndexOutOfBoundsException e) {
-            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.message());
+            throw new DarwinException(ErrorMessage.MISSING_DESCRIPTION_EVENT.getMessage());
         }
     }
 
@@ -242,7 +252,7 @@ public class TaskList {
             output = output.concat(" in the list.");
             return output;
         } catch (IndexOutOfBoundsException e) {
-            throw new DarwinException(ErrorMessage.OUT_OF_BOUND.message());
+            throw new DarwinException(ErrorMessage.OUT_OF_BOUND.getMessage());
         }
     }
 
@@ -256,7 +266,7 @@ public class TaskList {
     public String find(String keyword) throws DarwinException {
         ArrayList<Task> tasksContainKeyword = new ArrayList<>();
         if (tasks.isEmpty()) {
-            throw new DarwinException(ErrorMessage.MISSING_TASK.message());
+            throw new DarwinException(ErrorMessage.MISSING_TASK.getMessage());
         }
         for (Task curr : tasks) {
             if (curr.getDescription().contains(keyword)) {
@@ -264,7 +274,7 @@ public class TaskList {
             }
         }
         if (tasksContainKeyword.isEmpty()) {
-            throw new DarwinException(ErrorMessage.NO_MATCHES.message());
+            throw new DarwinException(ErrorMessage.NO_MATCHES.getMessage());
         }
         String output = "Here are the matching tasks in your list:";
         for (int i = 1; i <= tasksContainKeyword.size(); i++) {

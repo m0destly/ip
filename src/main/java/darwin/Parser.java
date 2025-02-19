@@ -3,6 +3,9 @@ package darwin;
 import exception.DarwinException;
 import exception.ErrorMessage;
 
+/**
+ * The class that handles all methods related to parsing the commands.
+ */
 public class Parser {
     private static final int MARK_INDEX = 4;
     private static final int UNMARK_INDEX = 6;
@@ -53,12 +56,12 @@ public class Parser {
             String index = markCommand.substring(Parser.MARK_INDEX).trim();
             // No index
             if (index.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.message());
+                throw new DarwinException(ErrorMessage.MISSING_INDEX_MARK.getMessage());
             }
             int taskNumber = Integer.parseInt(index) - 1;
             return taskList.mark(taskNumber);
         } catch (NumberFormatException e) {
-            throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
+            throw new DarwinException(ErrorMessage.NOT_NUMBER.getMessage());
         }
     }
 
@@ -76,12 +79,12 @@ public class Parser {
             String index = unmarkCommand.substring(Parser.UNMARK_INDEX).trim();
             // No index
             if (index.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_INDEX_UNMARK.message());
+                throw new DarwinException(ErrorMessage.MISSING_INDEX_UNMARK.getMessage());
             }
             int taskNumber = Integer.parseInt(index) - 1;
             return taskList.unmark(taskNumber);
         } catch (NumberFormatException e) {
-            throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
+            throw new DarwinException(ErrorMessage.NOT_NUMBER.getMessage());
         }
     }
 
@@ -99,12 +102,12 @@ public class Parser {
             String index = deleteCommand.substring(Parser.DELETE_INDEX).trim();
             // No index
             if (index.isEmpty()) {
-                throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.message());
+                throw new DarwinException(ErrorMessage.MISSING_INDEX_DELETE.getMessage());
             }
             int taskNumber = Integer.parseInt(index) - 1;
             return taskList.delete(taskNumber);
         } catch (NumberFormatException e) {
-            throw new DarwinException(ErrorMessage.NOT_NUMBER.message());
+            throw new DarwinException(ErrorMessage.NOT_NUMBER.getMessage());
         }
     }
 
@@ -120,7 +123,7 @@ public class Parser {
     private static String parseFind(String findCommand, TaskList taskList) throws DarwinException {
         String keyword = findCommand.substring(Parser.FIND_INDEX).trim();
         if (keyword.isEmpty()) {
-            throw new DarwinException(ErrorMessage.MISSING_KEYWORD.message());
+            throw new DarwinException(ErrorMessage.MISSING_KEYWORD.getMessage());
         }
         return taskList.find(keyword);
     }
@@ -144,7 +147,7 @@ public class Parser {
             return taskList.addEvent(inputs);
         } else {
             // Not a command
-            throw new DarwinException(ErrorMessage.UNKNOWN.message());
+            throw new DarwinException(ErrorMessage.UNKNOWN.getMessage());
         }
     }
 }
