@@ -1,5 +1,8 @@
 package darwin;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Ui {
 
     public static String showWelcome() {
@@ -26,5 +29,10 @@ public class Ui {
 
     public static void showError(String errorMessage) {
         System.out.println(errorMessage);
+    }
+
+    public static String showDateFormat(LocalDate date) {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        return date.format(dateFormat);
     }
 }

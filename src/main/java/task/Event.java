@@ -1,15 +1,14 @@
 package task;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
+import darwin.Ui;
 import exception.DarwinException;
 import exception.ErrorMessage;
 
 public class Event extends Task {
     protected LocalDate from;
     protected LocalDate to;
-    protected DateTimeFormatter dateFormat;
 
     public Event(String description, LocalDate from, LocalDate to) throws DarwinException {
         super(description);
@@ -18,12 +17,11 @@ public class Event extends Task {
         }
         this.from = from;
         this.to = to;
-        this.dateFormat = DateTimeFormatter.ofPattern("MMM dd yyyy");
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from.format(dateFormat)
-                + " to: " + to.format(dateFormat) + ")";
+        return "[E]" + super.toString() + " (from: " + Ui.showDateFormat(from)
+                + " to: " + Ui.showDateFormat(to) + ")";
     }
 }
