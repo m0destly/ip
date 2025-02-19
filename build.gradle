@@ -48,7 +48,7 @@ test {
 }
 
 application {
-    mainClass.set("src/main/java/gui/Launcher.java")
+    mainClass.set("gui.Launcher")
 }
 
 shadowJar {
