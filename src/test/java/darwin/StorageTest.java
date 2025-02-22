@@ -1,12 +1,14 @@
 package darwin;
 
-import exception.DarwinException;
-import task.Task;
-
-import java.util.ArrayList;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
+import exception.DarwinException;
+import task.Task;
 
 public class StorageTest {
     @Test
@@ -33,7 +35,7 @@ public class StorageTest {
     public void load_existingFilePathSize_success() {
         ArrayList<Task> testList = new Storage("data/darwin.tmp").load();
         int testSize = testList.size();
-        assertEquals(1, testSize);
+        assertEquals(2, testSize);
     }
 
     @Test
@@ -41,6 +43,6 @@ public class StorageTest {
         ArrayList<Task> testList = new Storage("data/darwin.tmp").load();
         Task testTask = testList.get(0);
         String testString = testTask.toString();
-        assertEquals("[T][ ] HELLO", testString);
+        assertEquals("[E][X] Recess week (from: Feb 24 2025 to: Mar 02 2025)", testString);
     }
 }
