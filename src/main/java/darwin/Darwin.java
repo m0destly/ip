@@ -11,7 +11,7 @@ public class Darwin {
 
     /**
      * Constructor loads the saved tasks, if any.
-     * @param filePath
+     * @param filePath File to save tasks to.
      */
     public Darwin(String filePath) {
         storage = new Storage(filePath);
@@ -31,10 +31,7 @@ public class Darwin {
     public String getResponse(String input) {
         try {
             String output = Parser.parse(input.trim(), tasks);
-            // Saves tasks before exit
-            if (output.equals(Ui.showExit())) {
-                saveTasks();
-            }
+            saveTasks();
             return output;
         } catch (DarwinException e) {
             return e.getMessage();
